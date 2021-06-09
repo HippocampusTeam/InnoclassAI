@@ -1,8 +1,8 @@
 
 public static class main {
     
-    // 19 inputs
-    static main() {
+    public static object lol() {
         Console.WriteLine("lol");
+        return "lol";
     }
 }

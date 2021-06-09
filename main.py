@@ -1,3 +1,3 @@
-# 19 inputs
-
-print('lol')
+def lol():
+    print('lol')
+    return 'lol'
