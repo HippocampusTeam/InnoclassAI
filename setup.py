@@ -1,4 +1,7 @@
 from distutils.core import setup
-from Cython.Build import cythonize
+from distutils.extension import Extension
+from Cython.Distutils import build_ext
 
-setup(ext_modules = cythonize('main.pyx'))
+setup(cmdclass={'build_ext': build_ext},
+      ext_modules=[Extension("main",
+                             ["main.pyx"])])
