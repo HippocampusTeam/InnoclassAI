@@ -20,9 +20,9 @@ class NeuralNetwork():
                         first = str(layer1) + ';' + str(neuron1)
                         second = str(layer2) + ';' + str(neuron2)
                         self.weights[first + '-' + second] = random.uniform(-5, 5)
-    
 
-    def calculate(self):
+    def calculate(self, input):
+        self.network[0] = input
         for layer in range(1, len(self.network)):
             for neuron in range(len(self.network[layer])):
                 for previous in range(len(self.network[layer - 1])):
