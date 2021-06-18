@@ -40,13 +40,16 @@ class NeuralNetwork:
     def calculate(self, input):
         self.network[0].set_values(input)
         for layer in range(1, len(self.network)):
+            self.network[layer].set_values([0] * self.network[layer].size)
             for current_neuron in range(self.network[layer].size):
                 for previous_neuron in range(self.network[layer - 1].size):
                     self.network[layer].neurons[current_neuron] += self.network[layer - 1].weights[previous_neuron][
                                                                        current_neuron] * \
-                                                                   self.network[layer - 1].neurons[current_neuron]
-                self.network[layer].neurons[current_neuron] = softsign(self.network[layer].neurons[current_neuron] + self.network[layer].biases[current_neuron])
+                                                                   self.network[layer - 1].neurons[previous_neuron]
+                self.network[layer].neurons[current_neuron] = softsign(
+                    self.network[layer].neurons[current_neuron] + self.network[layer].biases[current_neuron])
         return self.network[-1].neurons
+
 
 network = NeuralNetwork([19, 3, 3])
 network.network[1].set_weights([2, 1, 3, 2, 1, 2, 3, 4, 5, 3, -2, 5])
