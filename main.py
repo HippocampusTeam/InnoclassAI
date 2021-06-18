@@ -1,43 +1,56 @@
-import copy
-import random
 import math
 
 
-class NeuralNetwork():
-    def sigmoid(self, x):
-        return 1 / (1 + math.exp(-x))
+def softsign(x):
+    return x / (abs(x) + 1)
 
+
+class Layer:
+    def __init__(self, neurons_count, output_count):
+        self.size = neurons_count
+        self.next_size = output_count
+        self.neurons = [0] * neurons_count
+        self.weights = list()
+
+        for neuron in range(neurons_count):
+            self.weights.append([0] * output_count)
+
+    def set_weights(self, weights):
+        if len(weights) == self.size * self.next_size:
+            counter = 0
+            for neuron in range(self.size):
+                for next_neuron in range(self.next_size):
+                    self.weights[neuron][next_neuron] = weights[counter]
+                    counter += 1
+        else:
+            return "Wrong layer size"
+
+    def set_values(self, values):
+        if len(values) == len(self.neurons):
+            self.neurons = values
+        else:
+            return "Wrong layer size"
+
+
+class NeuralNetwork:
     def __init__(self, size):
         self.network = list()
-        for i in size:
-            self.network.append([0] * i)
-
-        self.weights = dict()  # 0;1-1;0
-        for layer1 in range(len(self.network)):
-            for neuron1 in range(len(self.network[layer1])):
-                for layer2 in range(layer1 + 1, len(self.network)):
-                    for neuron2 in range(len(self.network[layer2])):
-                        first = str(layer1) + ';' + str(neuron1)
-                        second = str(layer2) + ';' + str(neuron2)
-                        self.weights[first + '-' + second] = random.uniform(-5, 5)
+        for layer in range(len(size)):
+            if layer != len(size) - 1:
+                self.network.append(Layer(size[layer], size[layer + 1]))
+            else:
+                self.network.append(Layer(size[layer], 0))
 
     def calculate(self, input):
-        self.network[0] = input
+        self.network[0].set_values(input)
         for layer in range(1, len(self.network)):
-            for neuron in range(len(self.network[layer])):
-                for previous in range(len(self.network[layer - 1])):
-                    first = str(layer - 1) + ';' + str(previous)
-                    second = str(layer) + ';' + str(neuron)
-                    self.network[layer][neuron] += self.weights[first + '-' + second] * self.network[layer - 1][neuron]
-                self.network[layer][neuron] = self.sigmoid(self.network[layer][neuron])
-        return self.network
+            for current_neuron in range(self.network[layer].size):
+                for previous_neuron in range(self.network[layer - 1].size):
+                    self.network[layer].neurons[current_neuron] += self.network[layer - 1].weights[previous_neuron][
+                                                                       current_neuron] * \
+                                                                   self.network[layer - 1].neurons[current_neuron]
+                self.network[layer].neurons[current_neuron] = softsign(self.network[layer].neurons[current_neuron])
 
-    def mutate(self, percentage_mutation_rate):
-        new_weights = copy.deepcopy(self.weights)
-        for weight in random.sample(self.weights.keys(), int(len(self.weights.keys()) * percentage_mutation_rate)):
-            new_weights = self.weights[weight] = random.uniform(-5, 5)
-        return new_weights
-
-# self.network, self.weights = create([6, 3, 4.6, 5.7, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0])
-# self.network = calculate(self.network, self.weights)
-# self.weights = mutate(self.weights, 0.25)
+# network = NeuralNetwork([19, 3, 3])
+# network.network[1].set_weights([2, 1, 3, 2, 1, 2, 3, 4, 5])
+# network.calculate([6, 3, 4.6, 5.7, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0])
