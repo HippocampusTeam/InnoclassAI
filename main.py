@@ -50,6 +50,7 @@ class NeuralNetwork:
                                                                        current_neuron] * \
                                                                    self.network[layer - 1].neurons[current_neuron]
                 self.network[layer].neurons[current_neuron] = softsign(self.network[layer].neurons[current_neuron])
+        return self.network[-1].neurons
 
 # network = NeuralNetwork([19, 3, 3])
 # network.network[1].set_weights([2, 1, 3, 2, 1, 2, 3, 4, 5])
