@@ -31,6 +31,8 @@ class Layer:
         for bias in range(counter, len(weights)):
             self.biases[bias - counter] = weights[bias]
 
+        return self.weights, self.biases
+
     # Устанавливаем значения нейронов
     def set_values(self, values):
         self.neurons = values
