@@ -10,22 +10,27 @@ class Layer:
 
     # Создание объекта слоя
     def __init__(self, neurons_count, output_count):
-        self.size = neurons_count
-        self.next_size = output_count
-        self.neurons = [0] * neurons_count
-        self.biases = [0] * neurons_count
-        self.weights = list()
+        self.size = neurons_count  # Количество нейронов в этом слое
+        self.next_size = output_count  # Количество нейронов в следующем слое
+        self.neurons = [0] * neurons_count  # Список значений нейронов этого слоя (изначально равны 0)
+        self.biases = list()  # TODO: Создайте список значений bias (изначально равны 0)
+        self.weights = list()  # Список, в котором подряд
 
+        # Устанавливаем значения весов, исходящих из каждого нейрона (изначально нулевые)
         for neuron in range(neurons_count):
-            self.weights.append([0] * output_count)
+            weights_of_neuron = list()  # Создаем список, в который нужно положить исходящие веса текущего нейрона (должны быть равны нулю)
+            # TODO: Заполните список weights_of_neuron
+            self.weights.append(weights_of_neuron)
 
-        # Устанавливаем веса
+    # Устанавливаем веса
     def set_weights(self, weights):
         counter = 0
 
+        # Проходим через все веса текущего слоя
         for neuron in range(self.size):
+            # Проходим через все веса следующего слоя
             for next_neuron in range(self.next_size):
-                self.weights[neuron][next_neuron] = weights[counter]
+                self.weights[neuron][next_neuron] = 0  # TODO: Установите значениее веса на соответствующее по счету
                 counter += 1
 
         return self.weights

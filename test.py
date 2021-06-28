@@ -13,15 +13,14 @@ class TestCalculator(unittest.TestCase):
         self.network = NeuralNetwork([5, 3, 3])
 
     def test_set_weights1(self):
-        output = ([[2, 1, 3], [2, 1, 2], [3, 4, 5]], [3, -2, 5])
-        self.assertEqual(self.network.network[1].set_weights([2, 1, 3, 2, 1, 2, 3, 4, 5, 3, -2, 5]), output,
+        output = ([[2, 1, 3], [2, 1, 2], [3, 4, 5]])
+        self.assertEqual(self.network.network[1].set_weights([2, 1, 3, 2, 1, 2, 3, 4, 5]), output,
                          msg='Что-то не так с установкой весов во втором слое. Проверьте функцию set_weights')
 
     def test_set_weights2(self):
-        output = ([[0.546, -4, 355678875865], [4, 678, 5], [345.76867, 6, 7], [8, -325.6, 6456.7], [4, 7, 87]],
-                  [56, 34, 67.0, 34.0, 908])
+        output = ([[0.546, -4, 355678875865], [4, 678, 5], [345.76867, 6, 7], [8, -325.6, 6456.7], [4, 7, 87]])
         self.assertEqual(self.network.network[0].set_weights(
-            [0.546, -4, 355678875865, 4, 678, 5, 345.76867, 6, 7, 8, -325.6, 6456.7, 4, 7, 87, 56, 34, 67., 34., 908]),
+            [0.546, -4, 355678875865, 4, 678, 5, 345.76867, 6, 7, 8, -325.6, 6456.7, 4, 7, 87]),
             output, msg='Что-то не так с установкой весов в первом слое. Проверьте функцию set_weights')
 
     def test_calculate0(self):
