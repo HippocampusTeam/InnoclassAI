@@ -1,6 +1,3 @@
-import math
-
-
 # Функция активации
 def softsign(x):
     return x / (abs(x) + 1)
@@ -13,12 +10,12 @@ class Layer:
         self.size = neurons_count  # Количество нейронов в этом слое
         self.previous_size = previous_count  # Количество нейронов в следующем слое
         self.neurons = [0] * neurons_count  # Список значений нейронов этого слоя (изначально равны 0)
-        self.biases = list()  # TODO: Создайте список значений bias (изначально равны 0)
+        self.biases = [0] * neurons_count  # TODO: Создайте список значений bias (изначально равны 0)
         self.weights = list()  # Список, в котором подряд
 
         # Устанавливаем значения весов, исходящих из каждого нейрона (изначально нулевые)
-        for neuron in range(neurons_count):
-            weights_of_neuron = list()  # Создаем список, в который нужно положить исходящие веса текущего нейрона (должны быть равны нулю)
+        for neuron in range(previous_count):
+            weights_of_neuron = [0] * neurons_count  # Создаем список, в который нужно положить исходящие веса текущего нейрона (должны быть равны нулю)
             # TODO: Заполните список weights_of_neuron
             self.weights.append(weights_of_neuron)
 
@@ -27,10 +24,10 @@ class Layer:
         counter = 0
 
         # Проходим через все веса текущего слоя
-        for current_neuron in range(self.size):
+        for previous_neuron in range(self.previous_size):
             # Проходим через все веса предыдущего слоя
-            for previous_neuron in range(self.previous_size):
-                self.weights[previous_neuron][current_neuron] = 0  # TODO: Установите значениее веса на соответствующее по счету
+            for current_neuron in range(self.size):
+                self.weights[previous_neuron][current_neuron] = weights[counter]  # TODO: Установите значениее веса на соответствующее по счету
                 counter += 1
 
         return self.weights
@@ -50,11 +47,11 @@ class NeuralNetwork:
     def __init__(self, size):
         self.network = list()
 
+        self.network.append(Layer(0, size[0]))  # Добавляем последний слой, у которого нет выходных весов
         # Добавляем все слои (кроме последнего) в нейронную сеть
-        for layer in range(len(size) - 1):
-            self.network.append(Layer(size[layer], size[
-                layer + 1]))  # При создании слоя передаем количество нейронов в этом слое и в следующем
-        self.network.append(Layer(size[len(size) - 1], 0))  # Добавляем последний слой, у которого нет выходных весов
+        for layer in range(1, len(size)):
+            self.network.append(Layer(size[layer - 1], size[
+                layer]))  # При создании слоя передаем количество нейронов в этом слое и в следующем
 
     # Вычисляем вывод нейронной сети
     def calculate(self, input):
@@ -64,7 +61,7 @@ class NeuralNetwork:
             self.network[layer].set_values([0] * self.network[layer].size)
             for current_neuron in range(self.network[layer].size):
                 for previous_neuron in range(self.network[layer - 1].size):
-                    self.network[layer].neurons[current_neuron] += self.network[layer - 1].weights[previous_neuron][
+                    self.network[layer].neurons[current_neuron] += self.network[layer].weights[previous_neuron][
                                                                        current_neuron] * \
                                                                    self.network[layer - 1].neurons[previous_neuron]
                 self.network[layer].neurons[current_neuron] = softsign(
