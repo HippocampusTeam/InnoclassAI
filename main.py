@@ -14,8 +14,8 @@ class Layer:
         self.weights = list()  # Список, в котором подряд
 
         # Устанавливаем значения весов, исходящих из каждого нейрона (изначально нулевые)
-        for neuron in range(neurons_count):
-            weights_of_neuron = [0] * previous_count  # Создаем список, в который нужно положить исходящие веса текущего нейрона (должны быть равны нулю)
+        for neuron in range(previous_count):
+            weights_of_neuron = [0] * neurons_count  # Создаем список, в который нужно положить исходящие веса текущего нейрона (должны быть равны нулю)
             self.weights.append(weights_of_neuron)
 
     # Устанавливаем веса
@@ -23,10 +23,10 @@ class Layer:
         counter = 0
 
         # Проходим через все веса текущего слоя
-        for current_neuron in range(self.size):
+        for previous_neuron in range(self.previous_size):
             # Проходим через все веса предыдущего слоя
-            for previous_neuron in range(self.previous_size):
-                self.weights[current_neuron][previous_neuron] = weights[counter]  # TODO: Установите значениее веса на соответствующее по счету
+            for current_neuron in range(self.size):
+                self.weights[previous_neuron][current_neuron] = weights[counter]  # TODO: Установите значениее веса на соответствующее по счету
                 counter += 1
 
         return self.weights
@@ -34,7 +34,7 @@ class Layer:
     def calculate(self, previous_layer):
         for current_neuron in range(self.size):
             for previous_neuron in range(self.previous_size):
-                self.neurons[current_neuron] += self.weights[current_neuron][previous_neuron] * \
+                self.neurons[current_neuron] += self.weights[previous_neuron][current_neuron] * \
                                                 previous_layer.neurons[previous_neuron]
             self.neurons[current_neuron] = softsign(self.neurons[current_neuron] + self.biases[current_neuron])
 

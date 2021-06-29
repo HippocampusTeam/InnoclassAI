@@ -31,7 +31,6 @@ class TestCalculator(unittest.TestCase):
         self.network.network[1].set_biases([3, -2, 5])
         eps = 1e-3
         output = self.network.calculate([6, 3, 4.6, 5.7, 0])
-        print(output)
         self.assertLessEqual(abs(output[0] - 0.727), eps, msg=calculate_msg)
         self.assertLessEqual(abs(output[1] - 0.773), eps, msg=calculate_msg)
         self.assertLessEqual(abs(output[2] - 0.835), eps, msg=calculate_msg)
@@ -47,9 +46,11 @@ class TestCalculator(unittest.TestCase):
         self.assertLessEqual(abs(output[2] - 0.908), eps, msg=calculate_msg)
 
     def test_calculate3(self):
-        self.network.network[0].set_weights(
-            [0.546, -4, 355678875865, 4, 678, 5, 345.76867, 6, 7, 8, -325.6, 6456.7, 4, 7, 87, 56, 34, 67., 34., 908])
-        self.network.network[1].set_weights([8, 9.96, -3, 0.062, -0.7, 82, 63, -4, -58, 0.3, -2, 51])
+        self.network.network[1].set_weights(
+            [0.546, -4, 355678875865, 4, 678, 5, 345.76867, 6, 7, 8, -325.6, 6456.7, 4, 7, 87])
+        self.network.network[0].set_biases([56, 34, 67., 34., 908])
+        self.network.network[2].set_weights([8, 9.96, -3, 0.062, -0.7, 82, 63, -4, -58])
+        self.network.network[1].set_biases([0.3, -2, 51])
         eps = 1e-3
         output = self.network.calculate([6, 3, 4.6, 5.7, 0])
         self.assertLessEqual(abs(output[0] - 0.986), eps, msg=calculate_msg)
