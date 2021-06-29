@@ -9,9 +9,9 @@ def softsign(x):
 class Layer:
 
     # Создание объекта слоя
-    def __init__(self, neurons_count, output_count):
+    def __init__(self, previous_count, neurons_count):
         self.size = neurons_count  # Количество нейронов в этом слое
-        self.next_size = output_count  # Количество нейронов в следующем слое
+        self.previous_size = previous_count  # Количество нейронов в следующем слое
         self.neurons = [0] * neurons_count  # Список значений нейронов этого слоя (изначально равны 0)
         self.biases = list()  # TODO: Создайте список значений bias (изначально равны 0)
         self.weights = list()  # Список, в котором подряд
@@ -27,10 +27,10 @@ class Layer:
         counter = 0
 
         # Проходим через все веса текущего слоя
-        for neuron in range(self.size):
-            # Проходим через все веса следующего слоя
-            for next_neuron in range(self.next_size):
-                self.weights[neuron][next_neuron] = 0  # TODO: Установите значениее веса на соответствующее по счету
+        for current_neuron in range(self.size):
+            # Проходим через все веса предыдущего слоя
+            for previous_neuron in range(self.previous_size):
+                self.weights[previous_neuron][current_neuron] = 0  # TODO: Установите значениее веса на соответствующее по счету
                 counter += 1
 
         return self.weights
@@ -50,13 +50,15 @@ class NeuralNetwork:
     def __init__(self, size):
         self.network = list()
 
+        # Добавляем все слои (кроме последнего) в нейронную сеть
         for layer in range(len(size) - 1):
-            self.network.append(Layer(size[layer], size[layer + 1]))
-        self.network.append(Layer(size[-1], 0))
+            self.network.append(Layer(size[layer], size[
+                layer + 1]))  # При создании слоя передаем количество нейронов в этом слое и в следующем
+        self.network.append(Layer(size[len(size) - 1], 0))  # Добавляем последний слой, у которого нет выходных весов
 
     # Вычисляем вывод нейронной сети
     def calculate(self, input):
-        self.network[0].set_values(input)
+        self.network[0].set_values(input)  # Задаем значения входного слоя
 
         for layer in range(1, len(self.network)):
             self.network[layer].set_values([0] * self.network[layer].size)
