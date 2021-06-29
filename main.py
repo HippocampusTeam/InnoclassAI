@@ -10,7 +10,7 @@ class Layer:
         self.size = neurons_count  # Количество нейронов в этом слое
         self.previous_size = previous_count  # Количество нейронов в следующем слое
         self.neurons = [0] * neurons_count  # Список значений нейронов этого слоя (изначально равны 0)
-        self.biases = [0] * neurons_count  # TODO: Создайте список значений bias (изначально равны 0)
+        self.biases = [0] * neurons_count  # Cписок значений bias (изначально равны 0)
         self.weights = list()  # Список, в котором подряд
 
         # Устанавливаем значения весов, исходящих из каждого нейрона (изначально нулевые)
@@ -26,7 +26,7 @@ class Layer:
         for previous_neuron in range(self.previous_size):
             # Проходим через все веса предыдущего слоя
             for current_neuron in range(self.size):
-                self.weights[previous_neuron][current_neuron] = weights[counter]  # TODO: Установите значениее веса на соответствующее по счету
+                self.weights[previous_neuron][current_neuron] = weights[counter]  # Устанавливаем значение веса на соответствующее по счету
                 counter += 1
 
         return self.weights
