@@ -22,9 +22,9 @@ class Layer:
     def set_weights(self, weights):
         counter = 0
 
-        # Проходим через все веса текущего слоя
+        # Проходим через все веса предыдущего слоя
         for previous_neuron in range(self.previous_size):
-            # Проходим через все веса предыдущего слоя
+            # Проходим через все веса текущего слоя
             for current_neuron in range(self.size):
                 self.weights[previous_neuron][current_neuron] = weights[counter]  # Устанавливаем значение веса на соответствующее по счету
                 counter += 1
