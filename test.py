@@ -1,4 +1,4 @@
-from hybrid import NeuralNetwork
+from task import NeuralNetwork
 from sys import exc_info
 from traceback import extract_tb
 
