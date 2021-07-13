@@ -42,6 +42,7 @@ class NeuralNetwork:
         self.neurons[0] = input
         for layer in range(1, len(self.neurons)):
             for neuron in range(len(self.neurons[layer])):
+                self.neurons[layer][neuron] = 0
                 for previous in range(len(self.neurons[layer - 1])):
                     self.neurons[layer][neuron] += self.weights[layer][previous][neuron] * self.neurons[layer - 1][previous]
                 self.neurons[layer][neuron] = softsign(self.neurons[layer][neuron] + self.biases[layer][neuron])
